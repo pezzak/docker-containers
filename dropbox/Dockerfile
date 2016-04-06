@@ -11,14 +11,20 @@ ENV HOME="/root" LC_ALL="C.UTF-8" LANG="en_US.UTF-8" LANGUAGE="en_US.UTF-8" TERM
 # Use baseimage-docker's init system
 # CMD ["/sbin/my_init"]
 # Use Supervisor
-CMD ["supervisord", "-c", "/etc/supervisor.conf", "-n"]
+COPY run.sh /
+RUN chmod +x /run.sh
+CMD ["/run.sh"]
+
 
 #########################################
 ##         RUN INSTALL SCRIPT          ##
 #########################################
 
 COPY * /tmp/
-RUN chmod +x /tmp/install.sh && /tmp/install.sh && rm /tmp/install.sh
+RUN chmod +x /tmp/install.sh 
+RUN /tmp/install.sh 
+RUN rm /tmp/install.sh
+RUN rm /tmp/run.sh
 
 #########################################
 ##         EXPORTS AND VOLUMES         ##
